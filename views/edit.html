@@ -77,7 +77,7 @@
           <h2 class="sub-header">修改学生</h2>
           <form action="/students/edit" method='post'>
             <!-- 用来存放一些不希望被用户看见，但是需要提交到服务端的数据 -->
-            <input type="hidden" id='{{students.id}}' name='id' value='{{students.id}}'>
+            <input type="hidden"  name='id' value='{{students._id}}'>
             <div class="form-group">
               <label for="">姓名</label>
               <input type="text" name='name' class="form-control" id="" value='{{students.name}}' >

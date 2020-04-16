@@ -56,13 +56,19 @@ var router=express.Router();
         //     }
         //     res.redirect('/students')
         // })
-        Students.save(req.body,function(err){
+        new Students(req.body).save(function(err){
             if(err){
                 return res.status(500).send('报错了')
             }
             res.redirect('/students')
         })
-        console.log(req.body)
+        // Students.save(req.body,function(err){
+        //     if(err){
+        //         return res.status(500).send('报错了')
+        //     }
+        //     res.redirect('/students')
+        // })
+        // console.log(req.body)
     })
 /**
  * 渲染编辑界面
@@ -78,7 +84,7 @@ router.get('/students/edit',function(req,res){
     // res.render('edit.html',{
     //     student:
     // })
-    Students.findById(parseInt(req.query.id )  ,function(err,student){
+    Students.findById(req.query.id.replace(/"/g,''),function(err,student){
         if(err){
             return  res.status(500).send('报错了')
         }
@@ -87,6 +93,15 @@ router.get('/students/edit',function(req,res){
             students:student
         })
     })
+    // Students.findById(parseInt(req.query.id )  ,function(err,student){
+    //     if(err){
+    //         return  res.status(500).send('报错了')
+    //     }
+    //     console.log(student)
+    //     res.render('edit.html',{
+    //         students:student
+    //     })
+    // })
 })
 /**
  * 处理编辑页面
@@ -101,7 +116,7 @@ router.post('/students/edit',function(req,res){
      * 3.发送响应
      */
     console.log(req.body)
-    Students.updateById(req.body,function(err){
+    Students.findByIdAndUpdate(req.body.id.replace(/"/g,""),req.body,function(err){
         if(err){
             return  res.status(500).send('报错了')
         }
@@ -119,8 +134,8 @@ router.get('/students/delete',function(req,res){
      * 3.根据操作结果发送响应数据
      */
     console.log(req.query.id)
-    var ids=req.query.id
-    Students.deleteById(ids,function(err){
+    var ids=req.query.id.replace(/"/g,"")
+    Students.findByIdAndRemove(ids,function(err){
         if(err){
             return  res.status(500).send('报错了')
         }
